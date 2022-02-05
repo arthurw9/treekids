@@ -1,0 +1,89 @@
+2022-02-04
+
+Let's build an app!
+
+
+2022-01-31
+
+Learning a little more about WSGI and flask.
+
+Looks like maybe WSGI is a way of starting multiple processes (and threads)
+to serve an Application (and keeping them all alive, babysitting them).
+
+WSGI can be a stand alone server in HTTP mode or 
+it can live behind a reverse proxy (web server) in HTTP or in Socket mode.
+ 
+The reason the built-in WSGI server from Flask is not recommended in production
+is the performance is poor and also if debug mode is enabled arbirary code can
+be run on the server by the client.
+
+gunicorn is a WSGI server.
+
+
+2022-01-30
+
+Decide on a app server stack.
+Maybe Flask, Python, jinja, nginx, and then some database?
+Flask - Maybe a wrapper around jinja and wsgi?
+wsgi - Maybe a way to connect python to nginx?
+
+$ sudo apt install nginx
+
+visit 127.0.0.1/
+visit localhost/
+nginx works.
+
+$ ip addr show wlp2s0
+
+Visit 192.168.86.36/
+nginx works.
+
+Nginx configuration files are stored in the /etc/nginx directory.
+
+reload config files without restart
+$ sudo systemctl reload nginx
+
+start nginx on boot?
+$ sudo systemctl disable nginx
+$ sudo systemctl enable nginx
+
+start and stop now
+$ sudo systemctl stop nginx
+$ sudo systemctl start nginx
+$ sudo systemctl restart nginx
+
+stop doesn't seem to work. nginx is still serving.
+Never mind. It was just the local browser cache.
+
+test the nginx config files (before restarting nginx)
+$ sudo nginx -t
+
+The tutorial wants me to install gunicorn and flask.
+gunicorn - maybe this is a server that lets you program python handlers?
+We might need gunicorn3 for python3.
+
+created hello world with wsgi.py and app.py
+
+python3 app.py
+
+http://localhost:5000/ works
+http://127.0.0.1:5000/ works
+http://192.168.86.36:5000/ works
+
+This doesn't seem to use nginx?
+
+Looks like I can also run it with gunicorn
+$ gunicorn3 --bind 0.0.0.0:5000 wsgi:app
+
+And looks like I can run it with flask too.
+$ export FLASK_APP=app.py
+$ flask run
+
+Added request args to the app.
+
+http://0.0.0.0:5000/
+http://localhost:5000/?name=Arthur
+http://localhost:5000/?name=Arthur%27s%20cool%21
+
+works
+
