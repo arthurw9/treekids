@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+{% block head %}
+<title>TreeKids</title>
+{% endblock head %}
+</head>
+<body>
+{% block headerline %}
+<table width=100%><tr>
+  <td><h1><a href="/">TreeKids</a></h1></td>
+  <td align=right>
+    {% if session['username'] %}
+       Hello {{ session['username'] }}<br><a href="/logout">logout</a>
+    {% else %}
+      <a href="/login">login</a>
+    {% endif %}
+  </td>
+</tr></table>
+<hr>
+{% endblock headerline %}
+{% block content %}
+Put content here.
+{% endblock content %}
+</body>
+</html>

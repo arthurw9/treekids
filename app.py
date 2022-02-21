@@ -1,21 +1,41 @@
-from flask import Flask, escape, request, render_template
+import flask
+# from flask import Flask, escape, request, render_template
 
-print(__name__)
+import auth
+import maintenance
+import config
 
-app = Flask(__name__)
+config.CreateIfNotExists()
+app = flask.Flask(__name__)
+app.config.from_json("config.json")
 
+@app.route('/ics', methods=['GET', 'POST'])
+def ics_page():
+  if 'username' not in flask.session or flask.session['username'] != 'arthur':
+    return flask.redirect(flask.url_for("login_page"))
+  if flask.request.method == 'POST':
+    maintenance.init_db()
+  return flask.render_template('ics.html')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login_page():
+  if flask.request.method == 'POST':
+    auth.CheckLogin()
+    return flask.redirect("/")
+  return flask.render_template('login.html')
+
+@app.route('/logout')
+def logout():
+  auth.Logout()
+  return flask.redirect("/")
+
+@app.route('/index.html')
 @app.route('/')
-def hello_template():
-  name = request.args.get("name", "World")
-  return render_template('index.html')
+def index():
+  return flask.render_template('index.html')
 
-@app.route('/v1')
-def hello_world():
-  name = request.args.get("name", "World")
-  s = "<center>Hello %s!</center>" % escape(name)
-  s += "<p>let's go!</p>"
-  return s
- 
 
 if __name__ == '__main__':
- app.run(debug=True,host='0.0.0.0')
+  app.run(debug=True, host='localhost')
+  # commented because it's not safe
+  # app.run(debug=True,host='0.0.0.0')

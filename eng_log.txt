@@ -4,11 +4,9 @@ Let's build an app!
 
 Ugh. Everything in sight uses pip. lol.
 
-https://www.pythonanywhere.com/ seems promising.
-un:arthurweinberger
-
-glitch seems promising too.
-un: arthurweinberger@gmail.com (google single signon)
+Possible hosting:
+- https://www.pythonanywhere.com/ un:arthurweinberger
+- glitch un: arthurweinberger@gmail.com (google sso)
 
 
 2022-01-31

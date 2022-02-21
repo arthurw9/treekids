@@ -1,1 +1,5 @@
 *.pyc
+*~
+*.swp
+db.db
+config.json
