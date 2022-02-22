@@ -32,6 +32,7 @@ def logout():
 @app.route('/index.html')
 @app.route('/')
 def index():
+  flask.g.internal = auth.IsInternal()
   return flask.render_template('index.html')
 
 
