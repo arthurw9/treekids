@@ -1,8 +1,30 @@
 {% extends "treekids.html" %}
 {% block content %}
 <h1>ICS</h1>
+<br>
 <form method='post' action="/ics">
-  <input type="submit" value="InitDb">
+  <input type="submit" name="initdb_button" value="InitDb"><br>
 </form>
+<br>
+<form method='post' action="/ics">
+  <input type="text" name="username" id="username" placeholder="New ICS User">
+  <input type="submit" name="new_ics_user_button" value="New ICS User"><br>
+</form>
+<br>
+<form method='post' action="/ics">
+  <input type="text" name="query" id="query" placeholder="query">
+  <input type="submit" name="query_button" value="Query"><br>
+</form>
+<hr>
+<table>
+{% for row in rows %}
+  <tr>
+    <td>{{ row[0] }}</td>
+    <td>{{ row[1] }}</td>
+    <td>{{ row[2] }}</td>
+  </tr>
+{% endfor %}
+</table>
+
 {% endblock content %}
 

@@ -13,9 +13,16 @@ config.LoadConfig(app)
 def ics_page():
   if not auth.IsInternal():
     return flask.redirect(flask.url_for("login_page"))
+  rows = []
   if flask.request.method == 'POST':
-    maintenance.init_db()
-  return flask.render_template('ics.html')
+    if "initdb_button" in flask.request.form:
+      maintenance.init_db()
+    if "query_button" in flask.request.form:
+      query = flask.request.form["query"]
+      rows = maintenance.query(query)
+    if "new_ics_user_button" in flask.request.form:
+      maintenance.new_user(flask.request.form)
+  return flask.render_template('ics.html', rows=rows)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login_page():

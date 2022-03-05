@@ -10,7 +10,7 @@
 <table width=100%><tr>
   <td><h1><a href="/">TreeKids</a></h1></td>
   <td align=right>
-    {% if session['username'] %}
+    {% if session['logged_in'] %}
        Hello {{ session['username'] }}<br><a href="/logout">logout</a>
     {% else %}
       <a href="/login">login</a>
