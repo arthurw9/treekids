@@ -1,17 +1,17 @@
 import flask
+import json
 # from flask import Flask, escape, request, render_template
 
 import auth
 import maintenance
 import config
 
-config.CreateIfNotExists()
 app = flask.Flask(__name__)
-app.config.from_json("config.json")
+config.LoadConfig(app)
 
 @app.route('/ics', methods=['GET', 'POST'])
 def ics_page():
-  if 'username' not in flask.session or flask.session['username'] != 'arthur':
+  if not auth.IsInternal():
     return flask.redirect(flask.url_for("login_page"))
   if flask.request.method == 'POST':
     maintenance.init_db()

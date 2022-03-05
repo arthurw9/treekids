@@ -18,4 +18,6 @@ def GetConfig():
     s = f.read()
   return json.loads(s)
 
-    
+def LoadConfig(app):
+  app.config.from_mapping(GetConfig()) 
+
