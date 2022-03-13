@@ -1,3 +1,24 @@
+2022-03-12
+
+Simple addtion homework works.
+Steps to deploy:
+- Delete all code:
+  $ rm -rf mysite
+
+- Recreate the directory
+  $ mkdir mysite
+
+- Create a tarfile with new code on the dev machine
+  $ tar cvf t.tar .
+
+- Upload it to mysite
+
+- Extract the code
+  $ tar xvf t.tar
+
+- Tell python anywhere to Reload the site.
+
+
 2022-02-04
 
 Let's build an app!
