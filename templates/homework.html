@@ -1,0 +1,39 @@
+{% extends "treekids.html" %}
+{% block content %}
+<script>
+document.addEventListener('keydown', handleKey);
+function handleKey(e) {
+  let ans_span = document.getElementById("ans");
+  let result_span = document.getElementById("result");
+  if (e.key == parseInt(e.key)) {
+    if (result_span.innerText != "") {
+      result_span.innerText = "";
+      ans_span.innerText = "";
+    }
+    ans_span.innerText += e.key;
+  }
+  if (e.key == "Backspace") {
+    ans_span.innerText = ""
+    result_span.innerText = "";
+  }
+  if (e.key == "Enter") {
+    if (result_span.innerText == "Yes!") {
+      window.location.reload();
+    }
+    if (parseInt(ans_span.innerText) == {{question.expected}}) {
+      result_span.innerText = "Yes!";
+      let inst = document.getElementById("more_instructions");
+      inst.innerText = "Press Enter again!";
+    } else {
+      result_span.innerHTML = "Try&nbsp;Again.";
+    }
+  }
+}
+</script>
+<p>Homework!
+<p>Just type the number and press enter.
+The backspace button clears everything.
+<p><huge>{{ question.num_a }} + {{ question.num_b }} = <span id="ans"></span> <span id="result"></span></huge> 
+<p id="more_instructions"><p>
+{% endblock content %}
+

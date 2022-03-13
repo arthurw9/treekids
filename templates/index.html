@@ -1,7 +1,11 @@
 {% extends "treekids.html" %}
 {% block content %}
 <p>Home page!
-{% if g.internal %}
+{% if session['logged_in'] %}
+  <p><a href="/homework">homework</a>
+  <p><a href="/grades">grades</a>
+{% endif %}
+{% if session['is_internal'] %}
   <p><a href="/ics">ics</a>
 {% endif %}
 {% endblock content %}

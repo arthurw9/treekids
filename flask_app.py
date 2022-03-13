@@ -1,5 +1,6 @@
 import flask
 import json
+import random
 # from flask import Flask, escape, request, render_template
 
 import auth
@@ -39,8 +40,25 @@ def logout():
 @app.route('/index.html')
 @app.route('/')
 def index():
-  flask.g.internal = auth.IsInternal()
   return flask.render_template('index.html')
+
+@app.route('/homework.html')
+@app.route('/homework')
+def homework():
+  if not auth.LoggedIn():
+    return flask.redirect(flask.url_for("login_page"))
+  num_a = random.randint(0,9)
+  num_b = random.randint(0,9)
+  expected = num_a + num_b
+  question = {'num_a': num_a, 'num_b': num_b, 'expected': expected}
+  return flask.render_template('homework.html', question=question)
+
+@app.route('/grades.html')
+@app.route('/grades')
+def grades():
+  if not auth.LoggedIn():
+    return flask.redirect(flask.url_for("login_page"))
+  return flask.render_template('grades.html')
 
 
 if __name__ == '__main__':
