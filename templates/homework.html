@@ -1,7 +1,17 @@
 {% extends "treekids.html" %}
 {% block content %}
 <script>
+let s1 = new Audio("static/sound1.m4a");
+let s2 = new Audio("static/sound2.m4a");
 document.addEventListener('keydown', handleKey);
+function record_answer() {
+  let ans_span = document.getElementById("ans");
+  let result = {a:{{ question.num_a }}, b:{{ question.num_b }},
+                c: ans_span.innerText};
+  let url = new URL('api/record_answer', document.baseURI);
+  url.search = new URLSearchParams(result);
+  fetch(url).then();
+}
 function handleKey(e) {
   let ans_span = document.getElementById("ans");
   let result_span = document.getElementById("result");
@@ -21,11 +31,15 @@ function handleKey(e) {
   if (e.key == "Enter") {
     if (result_span.innerText == "Yes!") {
       window.location.reload();
+      return;
     }
+    record_answer();
     if (parseInt(ans_span.innerText) == {{question.expected}}) {
+      s1.play();
       result_span.innerText = "Yes!";
       inst_span.innerText = "Press Enter again!";
     } else {
+      s2.play();
       result_span.innerHTML = "Try&nbsp;Again.";
       inst_span.innerText = "Press Backspace.";
     }
@@ -33,8 +47,8 @@ function handleKey(e) {
 }
 </script>
 <p>Homework!
-<p>Just type the number and press enter.
-The Backspace button clears everything.
+<p>Type the number and press &lt;Enter&gt;!
+Use &lt;Backspace&gt; to clear.
 <p><huge>{{ question.num_a }} + {{ question.num_b }} = <span id="ans"></span> <span id="result"></span></huge> 
 <p id="more_instructions"><p>
 {% endblock content %}

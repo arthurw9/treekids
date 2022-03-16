@@ -42,6 +42,11 @@ def logout():
 def index():
   return flask.render_template('index.html')
 
+@app.route('/api/record_answer')
+def record_answer():
+  # TODO: Record the answer (a + b = c?)
+  return "ok"
+
 @app.route('/homework.html')
 @app.route('/homework')
 def homework():

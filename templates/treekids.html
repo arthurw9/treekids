@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html>
 <head>
-{% block head %}
 <title>TreeKids</title>
-{% endblock head %}
 <link rel="stylesheet" type="text/css" href="static/style.css" />
+<style>
+.tab {
+  padding-left: 10px; padding-right: 10px;
+  border-top: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
+}
+</style>
 </head>
 <body>
 {% block headerline %}
@@ -18,7 +24,36 @@
     {% endif %}
   </td>
 </tr></table>
-<hr>
+<table>
+<tr>
+{% if '/login' != request.path %}
+  <td>
+    <span class='tab'>
+      <a href="/">home</a></span>
+    </span>
+  </td>
+{% endif %}
+{% if session['logged_in'] %}
+  <td>
+    <span class='tab'>
+      <a href="/homework">homework</a>
+    </span>
+  </td>
+  <td>
+    <span class='tab'>
+      <a href="/grades">grades</a>
+    </span>
+  </td>
+{% endif %}
+{% if session['is_internal'] %}
+  <td>
+    <span class='tab'>
+      <a href="/ics">ics</a>
+    </span>
+  </td>
+{% endif %}
+</tr>
+</table>
 {% endblock headerline %}
 {% block content %}
 Put content here.
