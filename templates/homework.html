@@ -6,8 +6,8 @@ let s2 = new Audio("static/sound2.m4a");
 document.addEventListener('keydown', handleKey);
 function record_answer() {
   let ans_span = document.getElementById("ans");
-  let result = {a:{{ question.num_a }}, b:{{ question.num_b }},
-                c: ans_span.innerText};
+  let result = {ans:"{{ question.num_a }}+{{ question.num_b }}=" +
+                ans_span.innerText};
   let url = new URL('api/record_answer', document.baseURI);
   url.search = new URLSearchParams(result);
   fetch(url).then();

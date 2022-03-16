@@ -6,8 +6,9 @@ import random
 import auth
 import maintenance
 import config
+import answer_recorder
 
-app = flask.Flask(__name__)
+app = flask.Flask("TreeKids")
 config.LoadConfig(app)
 
 @app.route('/ics', methods=['GET', 'POST'])
@@ -44,18 +45,24 @@ def index():
 
 @app.route('/api/record_answer')
 def record_answer():
-  # TODO: Record the answer (a + b = c?)
+  ans = flask.request.args['ans']
+  question = ans.split("=")[0] + "="
+  answer = ans[len(question):]
+  answer_recorder.record_answer(question, answer)
   return "ok"
 
 @app.route('/homework.html')
 @app.route('/homework')
 def homework():
+  app.logger.info("Starting homework method.")
   if not auth.LoggedIn():
     return flask.redirect(flask.url_for("login_page"))
   num_a = random.randint(0,9)
   num_b = random.randint(0,9)
   expected = num_a + num_b
   question = {'num_a': num_a, 'num_b': num_b, 'expected': expected}
+  answer_recorder.record_question("%s+%s=" % (num_a, num_b))
+  # TODO: make question a string?
   return flask.render_template('homework.html', question=question)
 
 @app.route('/grades.html')
