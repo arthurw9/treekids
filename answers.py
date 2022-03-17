@@ -25,4 +25,18 @@ def record_answer(question, answer):
                         "values(?, ?, ?, ?)", [username, question, answer, ts])
     db.commit()
 
+def query_answers(user_query):
+  with app.app_context():
+    db = db_utils.get_db()
+    sql_query = """select q.username, a.ts - q.ts, q.question, a.answer
+                   from questions q left join answers a 
+                   on a.username = q.username and q.question = a.question """
+    if user_query:
+      cur = db.execute(sql_query + "where q.username = ? order by 3, 2", [user_query])
+    else:
+      cur = db.execute(sql_query + "order by 1, 3, 2")
+    rv = cur.fetchall()
+    cur.close()
+    app.logger.info(str(rv))
+  return rv
 

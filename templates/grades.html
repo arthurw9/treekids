@@ -1,6 +1,16 @@
 {% extends "treekids.html" %}
 {% block content %}
-<p>Grades
-<p>Coming Soon!
+<p>TODO: Make grades instead of answers.
+<p>Columns: user, time in seconds, question, answer
+<table>
+{% for row in rows %}
+  <tr>
+    <td>{{ row[0] }}</td>
+    <td>{{ row[1] }}</td>
+    <td>{{ row[2] }}</td>
+    <td>{{ row[3] }}</td>
+  </tr>
+{% endfor %}
+</table>
 {% endblock content %}
 

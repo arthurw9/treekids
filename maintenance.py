@@ -11,12 +11,12 @@ def init_db():
       db.cursor().executescript(f.read())
     db.commit()
 
-def query(value):
+def query_users(user_query):
   with app.app_context():
     db = db_utils.get_db()
-    if value:
+    if user_query:
       cur = db.execute("select username, relationship, other " +
-                       "from role where username = ?", [value])
+                       "from role where username = ?", [user_query])
     else:
       cur = db.execute("select username, relationship, other from role")
     rv = cur.fetchall()

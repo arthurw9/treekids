@@ -13,8 +13,10 @@
 <br>
 <!-- add forms to query for users, questions, and answers. -->
 <form method='post' action="/ics">
-  <input type="text" name="query" id="query" placeholder="query">
-  <input type="submit" name="query_button" value="Query"><br>
+  <input type="text" name="user_query" id="query" placeholder="username">
+  <input type="submit" name="users_button" value="Query Users">
+  <input type="submit" name="answers_time_button" value="Answers">
+  <!-- input type="submit" name="answers_question_button" value="Answers by question"-->
 </form>
 <hr>
 <table>
@@ -23,6 +25,7 @@
     <td>{{ row[0] }}</td>
     <td>{{ row[1] }}</td>
     <td>{{ row[2] }}</td>
+    <td>{{ row[3] }}</td>
   </tr>
 {% endfor %}
 </table>

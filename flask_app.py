@@ -6,7 +6,7 @@ import random
 import auth
 import maintenance
 import config
-import answer_recorder
+import answers
 
 app = flask.Flask("TreeKids")
 config.LoadConfig(app)
@@ -19,11 +19,18 @@ def ics_page():
   if flask.request.method == 'POST':
     if "initdb_button" in flask.request.form:
       maintenance.init_db()
-    if "query_button" in flask.request.form:
-      query = flask.request.form["query"]
-      rows = maintenance.query(query)
     if "new_ics_user_button" in flask.request.form:
       maintenance.new_user(flask.request.form)
+    if "users_button" in flask.request.form:
+      user_query = flask.request.form["user_query"]
+      rows = maintenance.query_users(user_query)
+    if "answers_time_button" in flask.request.form:
+      user_query = flask.request.form["user_query"]
+      rows = answers.query_answers(user_query)
+    if "answers_question_button" in flask.request.form:
+      user_query = flask.request.form["user_query"]
+      rows = answers.query_answers(user_query)
+
   return flask.render_template('ics.html', rows=rows)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -48,7 +55,7 @@ def record_answer():
   ans = flask.request.args['ans']
   question = ans.split("=")[0] + "="
   answer = ans[len(question):]
-  answer_recorder.record_answer(question, answer)
+  answers.record_answer(question, answer)
   return "ok"
 
 @app.route('/homework.html')
@@ -61,7 +68,7 @@ def homework():
   num_b = random.randint(0,9)
   expected = num_a + num_b
   question = {'num_a': num_a, 'num_b': num_b, 'expected': expected}
-  answer_recorder.record_question("%s+%s=" % (num_a, num_b))
+  answers.record_question("%s+%s=" % (num_a, num_b))
   # TODO: make question a string?
   return flask.render_template('homework.html', question=question)
 
@@ -70,7 +77,8 @@ def homework():
 def grades():
   if not auth.LoggedIn():
     return flask.redirect(flask.url_for("login_page"))
-  return flask.render_template('grades.html')
+  rows = answers.query_answers(auth.Username())
+  return flask.render_template('grades.html', rows=rows)
 
 
 if __name__ == '__main__':

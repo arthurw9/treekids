@@ -1,6 +1,11 @@
 import flask
 import maintenance
 
+def Username():
+  if LoggedIn():
+    return flask.session['username']
+  return None
+
 def CheckLogin():
   # TODO: Check the password
   username = flask.request.form['username'].lower()
