@@ -27,7 +27,7 @@ def IsInternal():
   user = flask.session['username']
   if user in ["arthur", "edmundo", "justo"]:
     return True
-  rows = maintenance.query(user)
+  rows = maintenance.query_users(user)
   for r in rows:
     if r[0] != user:
       continue
