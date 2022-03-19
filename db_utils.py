@@ -1,7 +1,7 @@
 import sqlite3
 import flask
 
-app = flask.Flask("TreeKids")
+app = flask.Flask(__name__)
 DATABASE = 'db.db'
 
 def get_db():

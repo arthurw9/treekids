@@ -3,7 +3,7 @@ import flask
 import db_utils
 import time
 
-app = flask.Flask("TreeKids")
+app = flask.Flask(__name__)
 
 def record_question(question):
   ts = int(time.time())

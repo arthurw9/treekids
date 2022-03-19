@@ -8,7 +8,7 @@ import maintenance
 import config
 import answers
 
-app = flask.Flask("TreeKids")
+app = flask.Flask(__name__)
 config.LoadConfig(app)
 
 @app.route('/ics', methods=['GET', 'POST'])

@@ -1,3 +1,6 @@
+TODO:
+Don't upload git files into t.tar
+
 2022-03-12
 
 Simple addtion homework works.

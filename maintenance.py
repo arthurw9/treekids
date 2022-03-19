@@ -2,7 +2,7 @@ import sqlite3
 import flask
 import db_utils
 
-app = flask.Flask("TreeKids")
+app = flask.Flask(__name__)
 
 def init_db():
   with app.app_context():
