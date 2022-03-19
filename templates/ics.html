@@ -15,17 +15,27 @@
 <form method='post' action="/ics">
   <input type="text" name="user_query" id="query" placeholder="username">
   <input type="submit" name="users_button" value="Query Users">
-  <input type="submit" name="answers_time_button" value="Answers">
+  <input type="submit" name="answers_time_button" value="Query Answers">
   <!-- input type="submit" name="answers_question_button" value="Answers by question"-->
 </form>
 <hr>
 <table>
 {% for row in rows %}
-  <tr>
+  <tr
+     {% if loop.index == 1 %}
+       bgcolor=lightgrey
+     {% elif row[2] == "Ques" %}
+       bgcolor=pink
+     {% else %}
+       bgcolor=white
+     {% endif %}
+  >
     <td>{{ row[0] }}</td>
     <td>{{ row[1] }}</td>
     <td>{{ row[2] }}</td>
     <td>{{ row[3] }}</td>
+    <td>{{ row[4] }}</td>
+    <td>{{ row[5] }}</td>
   </tr>
 {% endfor %}
 </table>

@@ -27,9 +27,6 @@ def ics_page():
     if "answers_time_button" in flask.request.form:
       user_query = flask.request.form["user_query"]
       rows = answers.query_answers(user_query)
-    if "answers_question_button" in flask.request.form:
-      user_query = flask.request.form["user_query"]
-      rows = answers.query_answers(user_query)
 
   return flask.render_template('ics.html', rows=rows)
 

@@ -10,8 +10,13 @@ values
   ("edmundo", "", "ics_user");
 
 drop table if exists questions;
-create table questions (username text, question text, ts integer);
 
 drop table if exists answers;
-create table answers (username text, question text, answer text, ts integer);
+create table answers (
+  username text,
+  ts integer,
+  question text,
+  question_only text,
+  answer text);
+
 

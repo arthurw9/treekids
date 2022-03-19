@@ -1,14 +1,22 @@
 {% extends "treekids.html" %}
 {% block content %}
-<p>TODO: Make grades instead of answers.
-<p>Columns: user, time in seconds, question, answer
 <table>
 {% for row in rows %}
-  <tr>
+  <tr
+     {% if loop.index == 1 %}
+       bgcolor=lightgrey
+     {% elif row[2] == "Ques" %}
+       bgcolor=pink
+     {% else %}
+       bgcolor=white
+     {% endif %}
+  >
     <td>{{ row[0] }}</td>
     <td>{{ row[1] }}</td>
     <td>{{ row[2] }}</td>
     <td>{{ row[3] }}</td>
+    <td>{{ row[4] }}</td>
+    <td>{{ row[5] }}</td>
   </tr>
 {% endfor %}
 </table>
