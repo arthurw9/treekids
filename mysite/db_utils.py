@@ -1,7 +1,6 @@
 import sqlite3
 import flask
 
-app = flask.Flask(__name__)
 DATABASE = 'db.db'
 
 def get_db():
@@ -11,9 +10,9 @@ def get_db():
     db = flask.g._database
   return db
 
-@app.teardown_appcontext
 def close_connection(exception):
   db = getattr(flask.g, '_database', None)
-  if db is not None:
+  if db:
+    flask.g.pop('_database')
     db.close()
 

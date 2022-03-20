@@ -1,12 +1,10 @@
 import flask
-import json
 import random
-# from flask import Flask, escape, request, render_template
-
 import auth
 import maintenance
 import config
 import answers
+import db_utils
 
 app = flask.Flask(__name__)
 config.LoadConfig(app)
@@ -76,6 +74,10 @@ def grades():
     return flask.redirect(flask.url_for("login_page"))
   rows = answers.query_answers(auth.Username())
   return flask.render_template('grades.html', rows=rows)
+
+@app.teardown_appcontext
+def tearDown(exception):
+  db_utils.close_connection(exception)
 
 
 if __name__ == '__main__':

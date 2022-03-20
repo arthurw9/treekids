@@ -2,7 +2,7 @@ import sqlite3
 import flask
 import db_utils
 
-app = flask.Flask(__name__)
+from flask import current_app as app
 
 def init_db():
   with app.app_context():

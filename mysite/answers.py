@@ -3,7 +3,7 @@ import flask
 import db_utils
 import time
 
-app = flask.Flask(__name__)
+from flask import current_app as app
 
 def record_question(question):
   ts = int(time.time())
