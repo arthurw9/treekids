@@ -1,0 +1,49 @@
+{% extends "treekids.html" %}
+{% block content %}
+<script>
+function AddOption(value) {
+  if (!value) {
+    value=""
+  }
+  let num_hidden = document.getElementById('num');
+  let num = parseInt(num_hidden.value) + 1; 
+  num_hidden.value = num;
+  let add_button = document.getElementById('add');
+  add_button.insertAdjacentHTML(
+      'beforebegin',
+      `<input type="text" id="i${num}" name="option${num}"
+              placeholder="wrong answer" value="${value}">
+       <button type="button" id="b${num}"
+               onclick="DeleteOption(${num})">Delete</button>
+       <br id="br${num}">`);
+}
+function DeleteOption(item_num) {
+  document.getElementById("i"+item_num).remove();
+  document.getElementById("b"+item_num).remove();
+  document.getElementById("br"+item_num).remove();
+  let num_hidden = document.getElementById('num');
+  let num = parseInt(num_hidden.value) - 1; 
+  num_hidden.value = num;
+}
+function Initialize() {
+  {% for option in wrong_options %}
+    AddOption("{{option}}");
+  {% endfor %}
+}
+window.onload = Initialize;
+</script>
+<p>Question Builder
+<form method='post' action="/build">
+  <!-- TODO: make the question id work. -->
+  <input type="hidden" id="question_id" name="question_id" value={{ question_id }}>
+  <textarea name="question" placeholder="Enter question">{{ question }}</textarea><br>
+  <input type="hidden" id="num" name="num_choices" value=1>
+  Multiple choice options:<br>
+  <input type="text" name="correct" placeholder="correct answer"
+         value="{{ correct }}"><br>
+  <button type="button" id="add" onclick="AddOption()">Add another option</button><br><br>
+  Options will be presented in random order when administered.<br>
+  <input type="submit" name="save_problem_button" value="Save Problem">
+</form>
+<br>
+{% endblock content %}

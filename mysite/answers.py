@@ -25,13 +25,13 @@ def record_answer(question, answer):
                         "values(?, ?, ?, ?, ?)", [username, ts, question, "Ans", answer])
     db.commit()
 
-def query_answers(user_query):
+def query_answers(query):
   with app.app_context():
     db = db_utils.get_db()
     sql_query = """select ts, username, question_only, question, answer
                    from answers a """
-    if user_query:
-      cur = db.execute(sql_query + "where username = ? order by 1", [user_query])
+    if query:
+      cur = db.execute(sql_query + "where username = ? order by 1", [query])
     else:
       cur = db.execute(sql_query + "order by 1, 2")
     rows = cur.fetchall()

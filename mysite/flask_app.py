@@ -5,6 +5,7 @@ import maintenance
 import config
 import answers
 import db_utils
+import questions
 
 app = flask.Flask(__name__)
 config.LoadConfig(app)
@@ -25,7 +26,9 @@ def ics_page():
     if "answers_time_button" in flask.request.form:
       user_query = flask.request.form["user_query"]
       rows = answers.query_answers(user_query)
-
+    if "questions_button" in flask.request.form:
+      user_query = flask.request.form["user_query"]
+      rows = questions.query(user_query)
   return flask.render_template('ics.html', rows=rows)
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -74,6 +77,24 @@ def grades():
     return flask.redirect(flask.url_for("login_page"))
   rows = answers.query_answers(auth.Username())
   return flask.render_template('grades.html', rows=rows)
+
+@app.route('/build.html', methods=['GET', 'POST'])
+@app.route('/build', methods=['GET', 'POST'])
+def build():
+  if not auth.LoggedIn():
+    return flask.redirect(flask.url_for("login_page"))
+  username = flask.session['username']
+  if flask.request.method == 'POST':
+    questions.save(flask.request.form);
+    rows = questions.query(username)
+    return flask.render_template('questions.html', rows=rows)
+  if 'question_id' in flask.request.args:
+    question_id = flask.request.args['question_id']
+    return questions.edit(question_id)
+  if 'new_question_button' in flask.request.args:
+    return flask.render_template('build.html', question_id=-1)
+  rows = questions.query(username)
+  return flask.render_template('questions.html', rows=rows)
 
 @app.teardown_appcontext
 def tearDown(exception):

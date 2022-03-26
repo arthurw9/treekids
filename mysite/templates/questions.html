@@ -1,0 +1,42 @@
+{% extends "treekids.html" %}
+{% block content %}
+<style type="text/css">
+  .main tr:hover {
+             background-color: lightgrey;
+             cursor: pointer;
+           }
+</style>
+<p>Question Builder
+<p>Questions
+<table class=main>
+{% for row in rows %}
+  <tr
+     {% if loop.index == 1 %}
+       bgcolor=lightgrey
+     {% else %}
+       bgcolor=white
+     {% endif %}
+     onclick = "window.location='build?question_id={{row[0]}}'"
+  >
+    <td>{{ row[0] }}</td>
+    <td>{{ row[1] }}</td>
+    <td>{{ row[2] }}</td>
+    <td>{{ row[3] }}</td>
+    <td>{{ row[4] }}</td>
+    <td>{{ row[5] }}</td>
+    <td>
+      {% if loop.index != 1 %}
+        <form method="POST"
+           onsubmit="return confirm('Are you sure? Delete ' + {{row[0]}});">
+        <input type="hidden" name="question_id" value="{{row[0]}}">
+        <input type="submit" name="delete_button" value="delete">
+        </form>
+      {% endif %}
+    </td>
+  </tr>
+{% endfor %}
+</table>
+<form method="GET">
+  <input type="submit" name="new_question_button" value="new question">
+<form>
+{% endblock content %}
