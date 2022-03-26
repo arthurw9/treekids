@@ -6,7 +6,6 @@
              cursor: pointer;
            }
 </style>
-<p>Question Builder
 <p>Questions
 <table class=main>
 {% for row in rows %}
@@ -25,7 +24,7 @@
     <td>{{ row[4] }}</td>
     <td>{{ row[5] }}</td>
     <td>
-      {% if loop.index != 1 %}
+      {% if loop.index != 1 and row[1] == session['username'] %}
         <form method="POST"
            onsubmit="return confirm('Are you sure? Delete ' + {{row[0]}});">
         <input type="hidden" name="question_id" value="{{row[0]}}">

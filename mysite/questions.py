@@ -44,11 +44,13 @@ def delete(form):
   question_id = form['question_id']
   with flask.current_app.app_context():
     db = db_utils.get_db()
-    db.cursor().execute("delete from questions where question_id = ?",
-      [question_id])
+    db.cursor().execute("""
+        delete from questions where question_id = ? and username = ?""",
+      [question_id, username])
     db.commit()
 
 def update(form):
+  # todo prevent users from updating other's questions.
   username = flask.session['username']
   question_id = form['question_id']
   question = form['question']
