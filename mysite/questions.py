@@ -86,7 +86,7 @@ def insert(form):
        [username, question, correct_answer, json.dumps(wrong_answers)])
     db.commit()
 
-def query(query):
+def query(query=""):
   with flask.current_app.app_context():
     db = db_utils.get_db()
     sql_query = """select question_id, username, question, correct_answer, wrong_answers

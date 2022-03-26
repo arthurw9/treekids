@@ -83,17 +83,16 @@ def grades():
 def build():
   if not auth.LoggedIn():
     return flask.redirect(flask.url_for("login_page"))
-  username = flask.session['username']
   if flask.request.method == 'POST':
     questions.save(flask.request.form);
-    rows = questions.query(username)
+    rows = questions.query()
     return flask.render_template('questions.html', rows=rows)
   if 'question_id' in flask.request.args:
     question_id = flask.request.args['question_id']
     return questions.edit(question_id)
   if 'new_question_button' in flask.request.args:
     return flask.render_template('build.html', question_id=-1)
-  rows = questions.query(username)
+  rows = questions.query()
   return flask.render_template('questions.html', rows=rows)
 
 @app.teardown_appcontext
