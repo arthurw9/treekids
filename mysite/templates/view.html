@@ -1,0 +1,24 @@
+{% extends "treekids.html" %}
+{% block content %}
+<script>
+function record_answer(ans) {
+  let result = {question: "{{ q.qid }}: {{ q.question }}",
+                answer: ans}
+  let url = new URL('api/record_answer', document.baseURI);
+  url.search = new URLSearchParams(result);
+  fetch(url).then(document.location = "/view?qid={{q.qid}}");
+}
+</script>
+<p>{{ q.question }}
+<p>
+{% for c in q.choices %}
+  <button type="button" onclick="record_answer('{{c}}');">{{ c }}</button>
+{% endfor %}
+<p>
+These buttons don't work yet. TODO: Make them work.
+<p>
+<button type="button">&lt;&lt; Previous Question</button>
+<button type="button">Next Question &gt;&gt;</button>
+<br>
+{% endblock content %}
+

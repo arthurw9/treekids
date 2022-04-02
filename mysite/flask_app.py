@@ -50,9 +50,13 @@ def index():
 
 @app.route('/api/record_answer')
 def record_answer():
-  ans = flask.request.args['ans']
-  question = ans.split("=")[0] + "="
-  answer = ans[len(question):]
+  if 'ans' in flask.request.args:
+    ans = flask.request.args['ans']
+    question = ans.split("=")[0] + "="
+    answer = ans[len(question):]
+  else:
+    question = flask.request.args['question']
+    answer = flask.request.args['answer']
   answers.record_answer(question, answer)
   return "ok"
 
@@ -94,6 +98,20 @@ def build():
     return flask.render_template('build.html', question_id=-1)
   rows = questions.query()
   return flask.render_template('questions.html', rows=rows)
+
+@app.route('/view.html', methods=['GET', 'POST'])
+@app.route('/view', methods=['GET', 'POST'])
+def view():
+  if not auth.LoggedIn():
+    return flask.redirect(flask.url_for("login_page"))
+  qid = 0
+  if 'qid' in flask.request.args:
+    qid = flask.request.args['qid']
+  q = questions.GetNextQuestion(qid)
+  answers.record_question("%s: %s" % (q["qid"], q["question"]))
+  # return q
+  return flask.render_template('view.html', q=q)
+
 
 @app.teardown_appcontext
 def tearDown(exception):

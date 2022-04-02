@@ -1,3 +1,4 @@
+import random
 import sqlite3
 import flask
 import db_utils
@@ -101,4 +102,30 @@ def query(query=""):
     cur.close()
   rows.insert(0, ["question_id", "username", "question", "answer", "wrong_answers"])
   return rows
+
+def GetNextQuestion(qid):
+  next_question = {}
+  with flask.current_app.app_context():
+    db = db_utils.get_db()
+    sql_query = """select question_id, question, correct_answer, wrong_answers
+                   from questions q where question_id > ? order by 1"""
+    cur = db.execute(sql_query, [qid])
+    row = cur.fetchone()
+    if not row:
+      next_question = {
+        'qid': 0,
+        'question': "All Done!",
+        'choices': []
+      }
+      return next_question
+    choices = json.loads(row[3])
+    choices.append(row[2])
+    random.shuffle(choices)
+    next_question = {
+      'qid': row[0],
+      'question': row[1],
+      'choices': choices
+    }
+    cur.close()
+  return next_question
 
